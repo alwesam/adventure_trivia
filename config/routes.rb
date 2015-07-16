@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   resources :answers
   resources :questions
   resources :challenges
-  resources :adventures
+  resources :adventures, defaults: {format: :json}
 end

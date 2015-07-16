@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715063245) do
+ActiveRecord::Schema.define(version: 20150716072607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "adventures", force: :cascade do |t|
-    t.string   "name"
     t.text     "description"
-    t.boolean  "challenge"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "title"
+    t.boolean  "include_final"
   end
 
   create_table "answers", force: :cascade do |t|
@@ -35,12 +35,12 @@ ActiveRecord::Schema.define(version: 20150715063245) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "challenges", force: :cascade do |t|
-    t.string   "location"
     t.integer  "adventure_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "address"
   end
 
   add_index "challenges", ["adventure_id"], name: "index_challenges_on_adventure_id", using: :btree
