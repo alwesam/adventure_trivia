@@ -6,7 +6,7 @@ class Answers::CreateAnswer
 
   def call
     answer = Answer.new params 
-    answer["question_id"] = question
+    answer.question = question
     answer.save!
   end
 

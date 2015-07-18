@@ -6,10 +6,10 @@ class Questions::CreateQuestion
 
   def call
     question = Question.new params_without_children 
-    question["challenge_id"] = challenge
+    question.challenge = challenge
     question.save!
     params["answers"].each do |index, answer|
-      Answers::CreateAnswer.new(params: answer, question: self).call
+      Answers::CreateAnswer.new(params: answer, question: question).call
     end
   end
 

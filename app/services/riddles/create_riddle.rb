@@ -6,7 +6,7 @@ class Riddles::CreateRiddle
 
   def call
     riddle = Riddle.new params 
-    riddle["challenge_id"] = challenge
+    riddle.challenge = challenge
     riddle.save!
   end
 

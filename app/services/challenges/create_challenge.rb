@@ -6,18 +6,17 @@ class Challenges::CreateChallenge
 
   def call
     challenge = Challenge.new params_without_children
-    challenge["adventure_id"] = adventure #make association with adventure
+    challenge.adventure = adventure
     challenge.save! #force exception if fail 
     params["questions"].each do |index, question|
-      Questions::CreateQuestion.new(params: question, challenge: self).call
+      Questions::CreateQuestion.new(params: question, challenge: challenge).call
     end
-    Riddles::CreateRiddle.new(params: params["riddle"], challenge: self).call
+    Riddles::CreateRiddle.new(params: params["riddle"], challenge: challenge).call
   end
 
   private 
   
   def params_without_children
-    byebug
     result = params.dup
     result.delete("questions")
     result.delete("riddle")
