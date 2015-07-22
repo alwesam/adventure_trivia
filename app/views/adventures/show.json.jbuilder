@@ -16,6 +16,3 @@ json.challenges        @adventure.challenges do |c|
     end
   end
 end
-#json.comments @adventure.comments do |comment|
-#  json.body comment.body
-#end
