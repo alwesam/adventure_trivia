@@ -5,6 +5,7 @@ class AdventuresController < ApplicationController
   end
 
   def show
+    #before transfer details get token
     @adventure = Adventure.find params[:id]
   end
 
