@@ -1,4 +1,5 @@
 class AdventuresController < ApplicationController
+  before_action :check_token, only: [:show]
 
   def index
     @adventures = Adventure.all
@@ -33,6 +34,13 @@ class AdventuresController < ApplicationController
       m = e.message
       render json: {success: false, errors: m}
     end
+  end
+
+  private
+
+  def check_token
+    adventure = Adventure.find params[:id]
+    render text: "access denied" unless params[:token] == adventure.token
   end
 
 end
