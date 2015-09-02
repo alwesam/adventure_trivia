@@ -1,5 +1,6 @@
 class AdventuresController < ApplicationController
   before_action :check_token, only: [:show]
+  before_action :authenticate_user_from_token!, only: [:create]
 
   def index
     @adventures = Adventure.all
@@ -11,9 +12,6 @@ class AdventuresController < ApplicationController
   end
 
   def create
-    #answers_params = {answers: [:content]} 
-    #questions_params = {questions: [:content, :answer, :answers_param]}
-    #challenges_params = {challenges: [:address, :question_params]}
     adventure_params = params.require(:adventure).permit(:title, 
                                                          :description, 
                                                          :include_final, 
@@ -25,8 +23,7 @@ class AdventuresController < ApplicationController
                                                                          answers: [:content, :correct]
                                                                         ]
                                                                       ])
-    #adventure_params = params.require(:adventure).permit(:title, :description, :include_final, :challenges_params) 
-    service = Adventures::CreateAdventure.new(params: adventure_params)
+    service = Adventures::CreateAdventure.new(params: adventure_params, user: get_user)
     begin
       service.call
       render json: {success: true}
@@ -41,6 +38,11 @@ class AdventuresController < ApplicationController
   def check_token
     adventure = Adventure.find params[:id]
     render text: "access denied" unless params[:token] == adventure.token
+  end
+
+  def get_user
+    user_id = params[:token].split(':').first
+    user = User.where(id: user_id).first
   end
 
 end

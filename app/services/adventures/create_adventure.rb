@@ -2,6 +2,7 @@ class Adventures::CreateAdventure
   include Virtus.model
 
   attribute :params, Hash
+  attribute :user, User
 
   def call
     ActiveRecord::Base.transaction do
@@ -12,6 +13,7 @@ class Adventures::CreateAdventure
   def create_adventure
     adventure = Adventure.new(params_without_children)
     #byebug
+    adventure.user = user
     adventure.save! 
     params["challenges"].each do |index, challenge|
       Challenges::CreateChallenge.new(params: challenge, adventure: adventure).call
